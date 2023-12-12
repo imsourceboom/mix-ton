@@ -1,0 +1,55 @@
+#!/bin/bash
+
+if [ $# -ne 3 ]; then 
+	echo "script need 3 parameter"
+	echo "parameter 1: Source Wallet"
+	echo "parameter 2: Target Wallet List"
+	echo "parameter 3: Start number"
+	exit
+fi
+
+SOURCE_WALLET=$1
+WALLET_LIST="$HOME/${2}-address"
+START_NUMBER=$3
+NANO=1000000000
+
+function GET_BALANCE_TON () {
+	mytonctrl <<< "wl" | grep -w $1 | awk '{print $3}'
+}
+
+function MOVE_COINS () {
+	mytonctrl <<< "mg $1 $2 $3 $4"
+}
+
+SOURCE_WALLET_BALANCE_TON=$(GET_BALANCE_TON $SOURCE_WALLET)
+SOURCE_WALLET_BALANCE_NANO=$(echo $SOURCE_WALLET_BALANCE_TON | tr -d '.')
+SOURCE_WALLET_BALANCE_TON_INT=$(echo $SOURCE_WALLET_BALANCE_TON | cut -d '.' -f 1)
+ITERATE_COUNT=$(awk 'END{print NR}' $WALLET_LIST)
+
+SOURCE_WALLET_BALANCE_DIVISION=$(expr $SOURCE_WALLET_BALANCE_TON_INT / $ITERATE_COUNT)
+
+for ((i = $START_NUMBER; i <= $ITERATE_COUNT; i++))
+do
+	TARGET_WALLET=$(awk "FNR == $i" $WALLET_LIST)
+	FRONT=$(($RANDOM % 8000+1234))
+	BACK=$(($RANDOM % 80000+12345))
+	SUM_DECIMAL=${FRONT}${BACK}
+	RANDOM_DECIMAL=$(($RANDOM % 10+0))
+	OUTPUT_DECIMAL=$(echo $SUM_DECIMAL | cut -c -${RANDOM_DECIMAL})
+	RANDOM_100=$(($RANDOM % 1500+1))
+	INT_BALANCE=$(expr $SOURCE_WALLET_BALANCE_DIVISION + $RANDOM_100)
+	ADD_BALANCE="${INT_BALANCE}.${OUTPUT_DECIMAL}"
+
+	if [ $RANDOM_DECIMAL = 0 ]; then
+		MOVE_COINS $SOURCE_WALLET $TARGET_WALLET $INT_BALANCE -n 
+		echo "TARGET_WALLET: $TARGET_WALLET"
+		echo "BALANCE: $INT_BALANCE"
+	else
+		MOVE_COINS $SOURCE_WALLET $TARGET_WALLET $ADD_BALANCE -n
+		echo "TARGET_WALLET: $TARGET_WALLET"
+		echo "BALANCE: $ADD_BALANCE"
+	fi
+	echo "RANDOM_DECIMAL: $RANDOM_DECIMAL"
+	echo "NUMBER: $i"
+	sleep $((RANDOM % 6+5))
+done
