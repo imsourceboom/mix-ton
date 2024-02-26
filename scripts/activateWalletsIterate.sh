@@ -12,5 +12,5 @@ COUNT=$2
 
 for ((i = 1; i <= $COUNT; i++))
 do 
-	mytonctrl <<< "aw $NAME_$i"
+	activateWallet.sh ${NAME}_${i}
 done
