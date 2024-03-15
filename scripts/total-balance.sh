@@ -39,5 +39,5 @@ do
 done
 
 echo "Total Wallets: $TOTAL_WALLETS"
-echo "Total Ton Balance: $(${TOTAL_BALANCE})"
+echo "Total Ton Balance: ${TOTAL_BALANCE}"
 echo "Total Nano Balance: $(DECIMAL ${TOTAL_BALANCE_NANO})"
