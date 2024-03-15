@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ $# -ne 7 ]; then 
-	echo "script need 7 parameter"
+if [ $# -ne 8 ]; then 
+	echo "script need 8 parameter"
 	echo "parameter 1: Source Wallet"
 	echo "parameter 2: Wallet Version"
 	echo "parameter 3: Start number"
@@ -9,6 +9,7 @@ if [ $# -ne 7 ]; then
 	echo "parameter 5: Random decimal Start number"
 	echo "parameter 6: Random decimal end number"
 	echo "parameter 7: Amount Division"
+	echo "parameter 8: Plus balance random"
 	exit
 fi
 
@@ -19,6 +20,7 @@ ITERATE_COUNT=$4
 START_RANDOM_DECIMAL=$5
 END_RANDOM_DECIMAL=$6
 AMOUNT_DIVISION=$7
+PLUS_RANDOM=$8
 NANO=1000000000
 
 function GET_BALANCE_TON () {
@@ -43,7 +45,7 @@ do
 	SUM_DECIMAL=${FRONT}${BACK}
 	RANDOM_DECIMAL=$(($RANDOM % $END_RANDOM_DECIMAL+$START_RANDOM_DECIMAL))
 	OUTPUT_DECIMAL=$(echo $SUM_DECIMAL | cut -c -${RANDOM_DECIMAL})
-	RANDOM_100=$(($RANDOM % 1500+1))
+	RANDOM_100=$(($RANDOM % $PLUS_RANDOM+1))
 	INT_BALANCE=$(expr $SOURCE_WALLET_BALANCE_DIVISION + $RANDOM_100)
 	ADD_BALANCE="${INT_BALANCE}.${OUTPUT_DECIMAL}"
 
