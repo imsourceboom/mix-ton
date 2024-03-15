@@ -12,6 +12,10 @@ COUNT=$2
 
 NANO=1000000000
 
+function GET_BALANCE_TON {
+	mytonctrl <<< "wl" | grep -w $1 | awk '{print $3}'
+}
+
 function GET_BALANCE_NANO {
 	mytonctrl <<< "wl" | grep -w $1 | awk '{print $3}' | tr -d '.'
 }
@@ -22,13 +26,18 @@ function DECIMAL {
 
 TOTAL_WALLETS=0
 TOTAL_BALANCE=0
+TOTAL_BALANCE_NANO=0
 
 for ((i = 1; i <= $COUNT; i++))
 do
-	BALANCE_NANO=$(GET_BALANCE_NANO ${VERSION}_${i})
-	TOTAL_BALANCE=$(expr $TOTAL_BALANCE + $BALANCE_NANO)
+	GET_BALANCE=$(GET_BALANCE_TON ${VERSION}_${i})
+	BALANCE_TON=$(echo $GET_BALANCE | cut -d '.' -f 1)
+	BALANCE_NANO=$(echo $GET_BALANCE | tr -d '.')
+	TOTAL_BALANCE=$(expr $TOTAL_BALANCE + $BALANCE_TON)
+	TOTAL_BALANCE_NANO=$(expr $TOTAL_BALANCE_NANO + $BALANCE_NANO)
 	TOTAL_WALLETS=${i}
 done
 
 echo "Total Wallets: $TOTAL_WALLETS"
-echo "Total Balance: $(DECIMAL ${TOTAL_BALANCE})"
+echo "Total Ton Balance: $(DECIMAL ${TOTAL_BALANCE})"
+echo "Total Nano Balance: $(DECIMAL ${TOTAL_BALANCE_NANO})"
