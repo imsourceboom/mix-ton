@@ -1,14 +1,16 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
-	echo "script Need 2 parameter"
+if [ $# -ne 3 ]; then
+	echo "script Need 3 parameter"
 	echo "parameter 1: Wallet Version"
-	echo "parameter 2: Wallet Count"
+	echo "parameter 2: Iterate Start Number"
+	echo "parameter 3: Iterate End Number"
 	exit
 fi
 
 VERSION=$1
-COUNT=$2
+START_NUMBER=$2
+END_NUMBER=$3
 
 NANO=1000000000
 
@@ -28,7 +30,7 @@ TOTAL_WALLETS=0
 TOTAL_BALANCE=0
 TOTAL_BALANCE_NANO=0
 
-for ((i = 1; i <= $COUNT; i++))
+for ((i = $START_NUMBER; i <= $END_NUMBER; i++))
 do
 	GET_BALANCE=$(GET_BALANCE_TON ${VERSION}_${i})
 	BALANCE_TON=$(echo $GET_BALANCE | cut -d '.' -f 1)
