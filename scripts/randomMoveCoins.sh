@@ -1,27 +1,29 @@
 #!/bin/bash
 
-if [ $# -ne 7 ]; then
-	echo "script need 7 parameter"
+if [ $# -ne 8 ]; then
+	echo "script need 8 parameter"
  	echo "parameter 1: Wallet Version"
- 	echo "parameter 2: Wallet Count"
-  	echo "parameter 3: Dest Wallet or Address"
-  	echo "parameter 4: Random decimal Start number"
-  	echo "parameter 5: Random decimal End number"
-  	echo "parameter 6: Initial Division - Least 2 more"
-  	echo "parameter 7: Amount Division"
+ 	echo "parameter 2: Range Start Number"
+ 	echo "parameter 3: Range Increase Number"
+  	echo "parameter 4: Dest Wallet or Address"
+  	echo "parameter 5: Random decimal Start number"
+  	echo "parameter 6: Random decimal End number"
+  	echo "parameter 7: Initial Division - Least 2 more"
+  	echo "parameter 8: Amount Division"
     	exit 1
 fi
 
 VERSION=$1
-WALLET_COUNT=$2
-DEST=$3
-START_RANDOM_DECIMAL=$4
-END_RANDOM_DECIMAL=$5
-INIT_DIVISION=$6
-AMOUNT_DIVISION=$7
+RANGE_START_NUMBER=$2
+INCREASE_NUMBER=$3
+DEST=$4
+START_RANDOM_DECIMAL=$5
+END_RANDOM_DECIMAL=$6
+INIT_DIVISION=$7
+AMOUNT_DIVISION=$8
 
 NANO=1000000000
-RANDOM_WALLET=$(($RANDOM % $WALLET_COUNT+1))
+RANDOM_WALLET=$(($RANDOM % $INCREASE_NUMBER+$RANGE_START_NUMBER))
 
 function GET_BALANCE_TON {
 	mytonctrl <<< "wl" | grep -w $1 | awk '{print $3}'
