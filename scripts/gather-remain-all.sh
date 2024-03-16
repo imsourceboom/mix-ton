@@ -1,16 +1,18 @@
 #!/bin/bash
 
-if [ $# -ne 3 ]; then
-	echo "script need 3 parameter"
+if [ $# -ne 4 ]; then
+	echo "script need 4 parameter"
 	echo "parameter 1: Wallet VERSION"
-	echo "parameter 2: Wallet COUNT"
-	echo "parameter 3: Dest Wallet Address"
+	echo "parameter 2: Iterate Start Number"
+	echo "parameter 3: Iterate End Number"
+	echo "parameter 4: Dest Wallet Address"
 	exit 1
 fi
 
 VERSION=$1
-WALLET_COUNT=$2
-DEST_WALLET=$3
+ITERATE_START=$2
+ITERATE_END=$3
+DEST_WALLET=$4
 NANO=1000000000
 
 function MOVE_COINS {
@@ -37,7 +39,7 @@ function TIGHT_FEE {
 	echo $ADD_FEE
 }
 
-	for ((i = 1; i <= $WALLET_COUNT; i++))
+	for ((i = $ITERATE_START; i <= $ITERATE_END; i++))
 	do
 		#FEE=$(TIGHT_FEE)
 		#WALLET_BALANCE=$(GET_BALANCE_NANO ${VERSION}_${i})

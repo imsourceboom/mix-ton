@@ -1,20 +1,22 @@
 #!/bin/bash
 
-if [ $# -ne 5 ]; then
-	echo "script need 5 parameter"
+if [ $# -ne 6 ]; then
+	echo "script need 6 parameter"
 	echo "parameter 1: Wallet VERSION"
-	echo "parameter 2: Wallet COUNT"
-	echo "parameter 3: Dest Wallet Address"
-	echo "parameter 4: RANDOM Decimal Start"
-	echo "parameter 5: RANDOM Decimal End"
+	echo "parameter 2: Iterate Start Number"
+	echo "parameter 3: Iterate End Number"
+	echo "parameter 4: Dest Wallet Address"
+	echo "parameter 5: RANDOM Decimal Start"
+	echo "parameter 6: RANDOM Decimal End"
 	exit 1
 fi
 
 VERSION=$1
-WALLET_COUNT=$2
-DEST_WALLET=$3
-START_RANDOM_DECIMAL=$4
-END_RANDOM_DECIMAL=$5
+ITERATE_START=$2
+ITERATE_END=$3
+DEST_WALLET=$4
+START_RANDOM_DECIMAL=$5
+END_RANDOM_DECIMAL=$6
 NANO=1000000000
 
 function MOVE_COINS {
@@ -41,7 +43,7 @@ function TIGHT_FEE {
 	echo $ADD_FEE
 }
 
-	for ((i = 1; i <= $WALLET_COUNT; i++))
+	for ((i = $ITERATE_START; i <= $ITERATE_END; i++))
 	do
 		FEE=$(TIGHT_FEE)
 		WALLET_BALANCE=$(GET_BALANCE_NANO ${VERSION}_${i})
