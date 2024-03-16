@@ -3,8 +3,8 @@
 if [ $# -ne 7 ]; then
 	echo "script need 7 parameter"
 	echo "parameter 1: Wallet VERSION"
-	echo "parameter 2: Start Number"
-	echo "parameter 3: Up to Number"
+	echo "parameter 2: Range Start Number"
+	echo "parameter 3: Range Increase Number"
 	echo "parameter 4: BALANCE LIMIT"
 	echo "parameter 5: RANDOM DECIMAL START INT 0"
 	echo "parameter 6: RANDOM DECIMAL END LIMIT INT 10"
@@ -15,8 +15,8 @@ if [ $# -ne 7 ]; then
 fi
 
 VERSION=$1
-START_NUMBER=$2
-UPTO_NUMBER=$3
+RANGE_START_NUMBER=$2
+RANGE_INCREASE_NUMBER=$3
 BALANCE_LIMIT=$4
 RANDOM_DECIMAL_START=$5
 RANDOM_DECIMAL_END=$6
@@ -56,8 +56,8 @@ function OUTPUT {
 TOTAL_MIX_COUNT=0
 for ((;;))
 do
-	SOURCE_RANDOM=$(($RANDOM % $UPTO_NUMBER+$START_NUMBER))
-	TARGET_RANDOM=$(($RANDOM % $UPTO_NUMBER+$START_NUMBER))
+	SOURCE_RANDOM=$(($RANDOM % $RANGE_INCREASE_NUMBER+$RANGE_START_NUMBER))
+	TARGET_RANDOM=$(($RANDOM % $RANGE_INCREASE_NUMBER+$RANGE_START_NUMBER))
 
 	FEE=$(TIGHT_FEE)
 	WALLET_BALANCE_TON=$(GET_BALANCE_TON ${VERSION}_${SOURCE_RANDOM})
