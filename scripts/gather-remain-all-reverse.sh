@@ -3,7 +3,7 @@
 if [ $# -ne 4 ]; then
 	echo "script need 4 parameter"
 	echo "parameter 1: Wallet VERSION"
-	echo "parameter 2: Iterate Start Number"
+	echo "parameter 2: Iterate Start Number | Because it's upside down, the start must be greater than the end number"
 	echo "parameter 3: Iterate End Number"
 	echo "parameter 4: Dest Wallet Address"
 	exit 1
