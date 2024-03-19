@@ -14,5 +14,5 @@ END=$3
 
 for ((i = $START; i <= $END; i++))
 do
-	removeWallets.sh ${WALLET_NAME}_${i}
+	removeWallet.sh ${WALLET_NAME}_${i}
 done
